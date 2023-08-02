@@ -1,0 +1,10 @@
+---
+
+- name: Prometheus Node Exporter Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  become_user: root
+  roles:
+    - name: Install node_exporter
+      role: prometheus-node-exporter

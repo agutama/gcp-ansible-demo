@@ -1,0 +1,96 @@
+# Install Jenkins
+- name: Add an apt key by id from a keyserver
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  tags: install
+
+- name: Update repositories cache and install necessary packages
+  apt:
+    update_cache: yes
+    pkg: 
+    - wget
+    - apt-transport-https
+  tags: install
+
+- name: Create keyrings configuration directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+  tags: install
+
+- name: Download the Eclipse Adoptium GPG key
+  get_url:
+    url: https://packages.adoptium.net/artifactory/api/gpg/key/public
+    dest: /etc/apt/keyrings/adoptium.asc
+  tags: install
+
+- name: Get Eclipse Adoptium apt repository
+  shell: |
+    echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main"
+  register: jdk_repository
+  tags: install
+
+- name: Configure the Eclipse Adoptium apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/adoptium.list
+    content: "{{ jdk_repository.stdout }}"
+  tags: install
+
+- name: Update repositories cache and install "temurin-17-jdk" package
+  apt:
+    name: temurin-17-jdk
+    update_cache: yes
+  tags: install
+
+- name: Download the jenkins GPG key
+  get_url:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    dest: /usr/share/keyrings/jenkins-keyring.asc
+  tags: install
+
+- name: Get Jenkins apt repository
+  shell: |
+    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+  register: jenkins_repository
+  tags: install
+
+- name: Configure the Jenkins apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/jenkins.list
+    content: "{{ jenkins_repository.stdout }}"
+  tags: install
+
+- name: Update repositories cache and install "jenkins" package
+  apt:
+    name: jenkins
+    update_cache: yes
+  tags: install
+
+- name: Enable and start a jenkins service
+  systemd:
+    name: jenkins.service
+    state: started
+    enabled: yes
+  tags: install
+
+### Install Jenkins Plugin
+- name: Get Jenkins Initial Password
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkins_pass
+  tags: plugin
+
+- name: Install plugin
+  jenkins_plugin:
+    name: "{{ item }}"
+    url: "http://{{ ansible_ssh_host }}:8080"
+    url_username: admin
+    url_password: "{{ jenkins_pass.stdout }}"
+  with_items: "{{ jenkins_plugin }}"
+  tags: plugin
+
+- name: Restart a jenkins service
+  systemd:
+    name: jenkins.service
+    state: restarted
+  tags: restart

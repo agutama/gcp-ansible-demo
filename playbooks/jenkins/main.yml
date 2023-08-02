@@ -1,0 +1,8 @@
+---
+- name: Jenkins Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  roles:
+    - name: Install Jenkins
+      role: jenkins

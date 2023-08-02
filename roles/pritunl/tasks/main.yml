@@ -1,0 +1,9 @@
+---
+
+- name: Install pritunl
+  ansible.builtin.include_tasks: install.yml
+  tags: install
+
+- name: Get pritunl credentials
+  ansible.builtin.include_tasks: config.yml
+  tags: config

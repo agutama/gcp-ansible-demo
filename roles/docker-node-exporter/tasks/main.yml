@@ -1,0 +1,12 @@
+---
+- name: install docker node_exporter
+  docker_container:
+    image: quay.io/prometheus/node-exporter:latest
+    name: node-exporter
+    state: started
+    restart_policy: always
+    network_mode: host
+    pid_mode: host
+    volumes:
+      - /:/host:ro,rslave
+  become: yes

@@ -1,0 +1,23 @@
+---
+- hosts: "{{ HOSTS | default([])}}"
+  name: Configure users
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Add Users
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        groups: "{{ item.groups | default('') }}"
+        append: true
+        state: "{{ item.state | default('present') }}"
+      loop:
+        "{{ users | flatten(levels=2) }}"
+
+    - name: Add Authorized keys
+      ansible.posix.authorized_key:
+        user: "{{ item.username }}"
+        key: "{{ lookup('list', item.ssh_public_key) | join('\n') }}"
+        state: "{{ item.state | default('present') }}"
+      loop:
+        "{{ users | flatten(levels=3) }}"

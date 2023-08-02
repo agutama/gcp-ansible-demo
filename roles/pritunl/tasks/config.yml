@@ -1,0 +1,10 @@
+---
+
+- name: get default password
+  shell: pritunl default-password
+  register: password
+  tags: config
+
+- debug:
+    msg: "DEFAULT PASSWORD: {{ password.stdout_lines }}"
+  tags: config

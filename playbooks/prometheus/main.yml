@@ -1,0 +1,16 @@
+---
+
+- name: Prometheus Grafana Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  become_user: root
+  roles:
+    - name: Install alertmanager
+      role: alertmanager
+    - name: Install node_exporter
+      role: prometheus-node-exporter
+    - name: Install prometheus
+      role: prometheus
+    - name: Install grafana
+      role: grafana

@@ -1,0 +1,29 @@
+[vpn]
+34.101.61.114
+
+[tools]
+vm-dev-se2-pritunl-1        ansible_ssh_host=10.20.6.2
+vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
+vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
+
+[app]
+vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
+
+[gce]
+vm-dev-se2-pritunl-1        ansible_ssh_host=10.20.6.2
+vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
+vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
+vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
+
+[node_exporter]
+10.20.6.4
+[prometheus]
+10.20.6.4
+[alertmanager]
+10.20.6.4
+[grafana]
+10.20.6.4
+
+[all:vars]
+ansible_ssh_port=22
+ansible_python_interpreter=/usr/bin/python3
