@@ -101,3 +101,6 @@ users:
     groups: google-sudoers
     ssh_public_key:
       - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCPgrE4uCK4zVosgnJ+ru0JANC6FcXWQcbn3uwzZXokhLZODehxgSaUVk0RppjvE7th7dq9ZLWCvpcxJQ/rWwPk= learning@thinkbook
+
+pg_version: 13
+pg_repo_version: jammy
