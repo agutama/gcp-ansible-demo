@@ -1,6 +1,9 @@
 [vpn]
 34.101.61.114
 
+[generic]
+vm-generic-test-1           ansible_ssh_host=34.101.41.166
+
 [tools]
 vm-dev-se2-pritunl-1        ansible_ssh_host=10.20.6.2
 vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3

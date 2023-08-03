@@ -1,0 +1,8 @@
+---
+- name: Postgresql Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  roles:
+    - name: Install psql
+      role: postgresql
