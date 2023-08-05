@@ -1,3 +1,26 @@
+### opensearch - start ###
+os1         ansible_host=34.101.105.169 ansible_user=learning ip=10.20.0.3 roles=data,master
+os2         ansible_host=34.101.63.163  ansible_user=learning ip=10.20.0.5 roles=data,master
+os3         ansible_host=34.101.237.67 ansible_user=learning ip=10.20.0.4 roles=data,master
+dashboards1 ansible_host=34.101.77.24  ansible_user=learning ip=10.20.0.6 roles=
+
+# List all the nodes in the os cluster
+[os-cluster]
+os1
+os2
+os3
+
+# List all the Master eligible nodes under this group
+[master]
+os1
+os2
+os3
+
+[dashboards]
+dashboards1
+
+### opensearch - end ###
+
 [vpn]
 34.101.61.114
 
