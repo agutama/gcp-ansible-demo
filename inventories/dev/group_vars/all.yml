@@ -104,3 +104,6 @@ users:
 
 pg_version: 13
 pg_repo_version: jammy
+
+elasticsearch_jvm_xms: 512m
+elasticsearch_jvm_xmx: 512m
