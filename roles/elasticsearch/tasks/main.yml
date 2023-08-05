@@ -1,0 +1,105 @@
+---
+# Step 1: Install required packages
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - zip
+      - unzip
+      - lsb-release
+      - curl
+      - gnupg
+    state: latest
+    update_cache: true
+
+- name: Import the Elastic Key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Adding Elastic APT repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+    state: present
+    filename: elastic-7.x.list
+    update_cache: yes
+
+#  Step 2: Install Elasticsearch
+- name: Update repositories cache and install elasticsearch
+  apt:
+    name: elasticsearch
+    update_cache: yes
+
+# Step 3: Configure Elasticsearch
+- name: Copy Elasticsearch config
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: elasticsearch
+  with_items:
+    - { src: "elasticsearch.yml", dest: "/etc/elasticsearch/elasticsearch.yml" }
+
+- name: Set Elasticsearch permissions
+  file:
+    path: /usr/share/elasticsearch
+    state: directory
+    recurse: yes
+    owner: elasticsearch
+    group: elasticsearch
+
+- name: Add or modify memlock, both soft and hard, limit for elasticsearch user.
+  pam_limits:
+    domain: elasticsearch
+    limit_type: "-"
+    limit_item: memlock
+    value: unlimited
+    comment: unlimited memory lock for elasticsearch
+
+- name: set LimitMEMLOCK to infinity.
+  lineinfile:
+    path: /usr/lib/systemd/system/elasticsearch.service
+    insertafter: "LimitAS=infinity"
+    line: "LimitMEMLOCK=infinity"
+    state: present
+
+- name: set vm.max_map_count to 262144 in sysctl
+  sysctl: name={{ item.key }} value={{ item.value }}
+  with_items:
+    - { key: "vm.max_map_count", value: "262144" }
+
+- name: For a permanent setting, update vm.max_map_count in /etc/sysctl.conf
+  command: sysctl -p /etc/sysctl.conf
+
+- name: Set min JVM Heap size.
+  lineinfile:
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "^-Xms"
+    line: "-Xms{{ elasticsearch_jvm_xms }}"
+
+- name: Set max JVM Heap size.
+  lineinfile:
+    dest: /etc/elasticsearch/jvm.options
+    regexp: "^-Xmx"
+    line: "-Xmx{{ elasticsearch_jvm_xmx }}"
+
+# Step 4: Start Elasticsearch
+- name: Enabling instance service
+  systemd:
+    name: elasticsearch
+    enabled: yes
+    daemon_reload: yes
+
+- name: restart elasticsearch after change configuration by configure-elastic-file role
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: elasticsearch
+
+- name: Starting Elasticsearch service
+  systemd:
+    name: elasticsearch
+    state: started
+
+- name: Ensure Elasticsearch is running
+  systemd: state=started name=elasticsearch
