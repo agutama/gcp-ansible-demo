@@ -1,3 +1,23 @@
+vm-dev-sea2-pritunl-1       ansible_ssh_host=10.20.6.2
+vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
+vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
+vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
+vm-generic-test-1           ansible_ssh_host=34.101.237.67
+
+[vpn]
+vm-dev-sea2-pritunl-1
+
+[generic]
+vm-generic-test-1 
+
+[tools]
+vm-dev-sea2-pritunl-1
+vm-dev-sea2-jenkins-1
+vm-dev-sea2-prometheus-1
+
+[app]
+vm-dev-sea2-backend-1
+
 ### opensearch - start ###
 os1         ansible_host=34.101.105.169 ansible_user=learning ip=10.20.0.3 roles=data,master
 os2         ansible_host=34.101.63.163  ansible_user=learning ip=10.20.0.5 roles=data,master
@@ -21,25 +41,7 @@ dashboards1
 
 ### opensearch - end ###
 
-[vpn]
-34.101.61.114
 
-[generic]
-vm-generic-test-1           ansible_ssh_host=34.101.237.67
-
-[tools]
-vm-dev-sea2-pritunl-1        ansible_ssh_host=10.20.6.2
-vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
-vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
-
-[app]
-vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
-
-[gce]
-vm-dev-sea2-pritunl-1        ansible_ssh_host=10.20.6.2
-vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
-vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
-vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
 
 [node_exporter]
 10.20.6.4
