@@ -185,5 +185,5 @@ custom_security_plugin_configs:
   - ../../../roles/opensearch/files/roles_mapping.yml
   - ../../../roles/opensearch/files/internal_users.yml
 
-iac_enable: false
+iac_enable: true
 ### opensearch - end ###

@@ -6,7 +6,7 @@
   become: true
   become_user: root
   roles:
-    - { role: ../../roles/opensearch/linux/opensearch }
+    - { role: ../../roles/opensearch/linux/opensearch/}
 
 - name: Opensearch dashboards installation & configuration
   hosts: "dashboards"
@@ -14,4 +14,4 @@
   become: true
   become_user: root
   roles:
-    - { role: ../../roles/opensearch/linux/opensearch/ }
+    - { role: ../../roles/opensearch/linux/dashboards/ }

@@ -1,10 +1,10 @@
 vm-dev-sea2-pritunl-1       ansible_ssh_host=10.20.6.2
 vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
-vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.4
+vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.3
 vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
 vm-generic-test-1           ansible_ssh_host=34.101.237.67
 
-[vpn]
+[pritunl]
 vm-dev-sea2-pritunl-1
 
 [generic]
@@ -19,16 +19,20 @@ vm-dev-sea2-prometheus-1
 vm-dev-sea2-backend-1
 
 ### opensearch - start ###
-os1         ansible_host=34.101.105.169 ansible_user=learning ip=10.20.0.3 roles=data,master
-os2         ansible_host=34.101.63.163  ansible_user=learning ip=10.20.0.5 roles=data,master
-os3         ansible_host=34.101.237.67 ansible_user=learning ip=10.20.0.4 roles=data,master
-dashboards1 ansible_host=34.101.77.24  ansible_user=learning ip=10.20.0.6 roles=
+os1  ansible_host=10.20.0.18 ansible_user=learning ip=10.20.0.18  roles=data,master
+os2  ansible_host=10.20.0.17 ansible_user=learning ip=10.20.0.17  roles=data,master
+os3  ansible_host=10.20.0.15 ansible_user=learning ip=10.20.0.15  roles=data,master
+os4  ansible_host=10.20.0.14 ansible_user=learning ip=10.20.0.14  roles=data,ingest
+os5  ansible_host=10.20.0.16 ansible_user=learning ip=10.20.0.16  roles=data,ingest
+dashboards1  ansible_host=10.20.0.19 ansible_user=learning ip=10.20.0.19  roles=dashboards
 
 # List all the nodes in the os cluster
 [os-cluster]
 os1
 os2
 os3
+os4
+os5
 
 # List all the Master eligible nodes under this group
 [master]
