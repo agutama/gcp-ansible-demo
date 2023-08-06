@@ -2,7 +2,7 @@ vm-dev-sea2-pritunl-1       ansible_ssh_host=10.20.6.2
 vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
 vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.3
 vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
-vm-generic-test-1           ansible_ssh_host=34.101.237.67
+vm-generic-test-1           ansible_ssh_host=34.101.200.105
 
 [pritunl]
 vm-dev-sea2-pritunl-1
