@@ -1,0 +1,67 @@
+---
+
+- name: Add an Apt signing key mongodb
+  ansible.builtin.apt_key:
+    url: https://www.mongodb.org/static/pgp/server-5.0.asc
+  tags: install
+
+- name: Add an apt key by id from a keyserver
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  tags: install
+
+- name: Add mongodb repository
+  ansible.builtin.apt_repository:
+    repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse
+    state: present
+    filename: /etc/apt/sources.list.d/mongodb-org-5.0.list
+  tags: install
+
+- name: Install dependency mongodb in ubuntu 22.04
+  apt:
+    deb: http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+  tags: install
+
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+  tags: install
+
+- name: Upgrade the OS (apt-get dist-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+  tags: install
+
+- name: Install dependencies and pre-requisite
+  apt:
+    update_cache: yes
+    name:
+      - dirmngr
+      - gnupg
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - mongodb-org
+    state: present
+  tags: install
+
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: yes
+  tags: install
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+  tags: install
+
+- name: Start and enabled mongodb Services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - mongod
+  tags: install
