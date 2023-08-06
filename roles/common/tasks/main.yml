@@ -4,8 +4,22 @@
   ansible.builtin.lineinfile:
     path: /etc/hosts
     line: "{{ ansible_ssh_host }} {{ inventory_hostname }}"
-  become: yes
+  become: true
 
 - name: Set timezone to Asia/Tokyo
   community.general.timezone:
     name: Asia/Jakarta
+
+- name: install important packages
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  package:
+    name:
+      - htop
+      - tmux
+      - vim
+      - curl
+      - python3
+      - python3-setuptools
+      - python3-pip
+    state: present

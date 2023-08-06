@@ -1,0 +1,24 @@
+---
+- hosts: "{{ HOSTS | default([]) }} "
+  name: Check hostname and display current user
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Run hostname command
+      ansible.builtin.command: hostname
+      register: hostname
+      changed_when: hostname.rc != 0
+
+    - name: Print hostname
+      ansible.builtin.debug:
+        var: hostname
+
+    - name: Run whoami command
+      ansible.builtin.command: whoami
+      register: whoami
+      changed_when: whoami.rc != 0
+
+    - name: Print current user
+      ansible.builtin.debug:
+        var: whoami
