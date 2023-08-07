@@ -1,0 +1,26 @@
+---
+- name: Ansible Prep Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  tasks:
+    - name: install important packages
+      vars:
+        ansible_python_interpreter: /usr/bin/python
+      package:
+        name:
+          - htop
+          - tmux
+          - vim
+          - curl
+          - python3-setuptools
+          - python3-pip
+        state: present
+
+    - name: install docker module for python
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+      pip:
+        name:
+          - docker
+          - docker-compose
