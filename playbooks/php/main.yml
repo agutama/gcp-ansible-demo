@@ -12,7 +12,7 @@
 
     - name: Installing php
       yum:
-        enablerepo: "remi,remi-php80" # --> "remi,remi-php74" or "remi,remi-php80"
+        enablerepo: "remi,remi-php74" # --> "remi,remi-php74" or "remi,remi-php80"
         name:
         - php
         - php-common
@@ -31,4 +31,8 @@
         - php-xmlrpc
         - php-soap
         - php-intl
+        - php exif
+        - php-pcntl
+        - php-bcmath
+        - php-opcache
         state: latest
