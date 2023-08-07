@@ -31,7 +31,7 @@
         - php-xmlrpc
         - php-soap
         - php-intl
-        - php exif
+        - php-exif
         - php-pcntl
         - php-bcmath
         - php-opcache

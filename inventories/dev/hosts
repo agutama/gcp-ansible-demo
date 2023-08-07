@@ -3,10 +3,10 @@ vm-dev-sea2-jenkins-1       ansible_ssh_host=10.20.6.3
 vm-dev-sea2-prometheus-1    ansible_ssh_host=10.20.6.3
 vm-dev-sea2-backend-1       ansible_ssh_host=10.20.0.2
 vm-generic-test-1           ansible_ssh_host=34.101.200.105
-ubuntu                      ansible_ssh_host=192.168.56.3  ansible_user=ubuntu
+centos                      ansible_ssh_host=192.168.56.5  ansible_user=centos
 
 [vbox]
-ubuntu
+centos
 
 [pritunl]
 vm-dev-sea2-pritunl-1
@@ -31,7 +31,7 @@ os5  ansible_host=10.20.0.16 ansible_user=learning ip=10.20.0.16  roles=data,ing
 dashboards1  ansible_host=10.20.0.19 ansible_user=learning ip=10.20.0.19  roles=dashboards
 
 # List all the nodes in the os cluster
-[os-cluster]
+[os_cluster]
 os1
 os2
 os3
