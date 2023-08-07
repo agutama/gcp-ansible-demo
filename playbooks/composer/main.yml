@@ -1,0 +1,10 @@
+---
+- name: Composer Installation
+  hosts: "{{ HOSTS | default([])}}"
+  gather_facts: false
+  become: true
+  roles:
+    - name: Install docker
+      role: docker
+    - name: Install composer
+      role: composer
